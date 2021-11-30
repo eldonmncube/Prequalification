@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
+
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -19,9 +20,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styles: [],
 })
 export class PrequalifictaionWidgetComponent implements OnInit {
-
-
-
   // form: FormGroup;
   ///
   firstPhase!: FormGroup;
@@ -44,19 +42,29 @@ export class PrequalifictaionWidgetComponent implements OnInit {
 
   day: number = 0;
 
-  // checked: boolean = false;
 
   formBuilder: any;
   dayText!: string;
   monthText!: string;
-  ///
   constructor(
     public dialogRef: MatDialogRef<PrequalifictaionWidgetComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder
   ) {
-    this.secondPhase = fb.group({
-      // phone: [''],
+    this.createForm();
+
+  }
+  createForm() {
+    this.secondPhase = this.fb.group({
+      phone: ['', Validators.required],
+      // phone1: ['', Validators.required,Validators.pattern('^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$')],
+      DayOfBirth: [
+        '',
+        Validators.required,Validators.min(1),Validators.max(31)
+      ],
+      // MonthOfBirth: [
+      //   '',
+      //   Validators.required]
     });
   }
 
@@ -65,28 +73,16 @@ export class PrequalifictaionWidgetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //Start Form Here
     this.firstPhase = this.formBuilder.group({
-      // name: ['', Validators.required],
-      // email: ['', Validators.required],
-      // phone: ['',Validators.required]
+      phone: ['', Validators.required],
     });
-    this.secondPhase = this.formBuilder.group({
-      //  DayOfBirth:['', Validators.required],
-      //  MonthOfBirth: ['', Validators.required],
-      // phone: [null, Validators.required],
-    });
-    this.thirdPhase = this.formBuilder.group({
-      // highest_qualification: ['', Validators.required],
-      // university: ['', Validators.required],
-      // total_marks: ['',Validators.required]
-    });
+    this.secondPhase = this.formBuilder.group({});
+    this.thirdPhase = this.formBuilder.group({});
     this.fourthPhase = this.formBuilder.group({});
     this.fifthPhase = this.formBuilder.group({});
     this.sixthPhase = this.formBuilder.group({});
     this.seventhPhase = this.formBuilder.group({});
-    //End Form Here
-  }
+     }
 
   get first() {
     return this.firstPhase.controls;
@@ -115,7 +111,11 @@ export class PrequalifictaionWidgetComponent implements OnInit {
       this.second_step = true;
     }
     if (this.step == 2) {
-      this.third_step = true;
+      if (this.secondPhase.valid) {
+        this.third_step = true;
+      } else {
+        this.createForm;
+      }
     }
 
     if (this.step == 3) {
@@ -130,23 +130,6 @@ export class PrequalifictaionWidgetComponent implements OnInit {
     if (this.step == 6) {
       this.seventh_step = true;
     }
-    /* if (this.step == 1) {
-      this.personal_step = true;
-      // if (this.personalDetails.invalid) {
-      //   return;
-      // }
-      console.log('Ellie',this.step);
-
-      this.step++;
-    }
-    if (this.step == 2) {
-      this.address_step = true;
-      // if (this.addressDetails.invalid) {
-      //   return;
-      // }
-      this.step++;
-    }
-    */
   }
   previous() {
     this.step--;
@@ -154,7 +137,6 @@ export class PrequalifictaionWidgetComponent implements OnInit {
       this.second_step = false;
     }
     if (this.step == 2) {
-
       this.third_step = false;
     }
     if (this.step == 3) {
@@ -181,17 +163,18 @@ export class PrequalifictaionWidgetComponent implements OnInit {
   submit() {
     if (this.step == 7) {
       this.sixth_step = true;
-      // if (this.educationalDetails.invalid) {
-      //   return;
-      // }
+
     }
   }
 
   checkMaxDay() {
-    var dt=this.secondPhase.value['DayOfBirth'];
+    var dt = this.secondPhase.value['DayOfBirth'];
     console.log('Hitting Check Max Ellie');
-console.log('Ellie dayText 1',dt);
-console.log('Ellie dayText 2',this.secondPhase.get('DayOfBirth')?.valueOf());
+    console.log('Ellie dayText 1', dt);
+    console.log(
+      'Ellie dayText 2',
+      this.secondPhase.get('DayOfBirth')?.valueOf()
+    );
     this.dayText = this.secondPhase.get('DayOfBirth')?.value;
     this.monthText = this.secondPhase.get('MonthOfBirth')?.value;
     if (this.dayText === '') {

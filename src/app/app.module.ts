@@ -41,7 +41,7 @@ const materialModules = [
     BrowserAnimationsModule,
     materialModules,
     FormsModule,
-    ReactiveFormsModule,NgxMaskModule.forRoot(),
+    ReactiveFormsModule,NgxMaskModule.forRoot()
   ],
   exports: [materialModules, PhoneMaskDirective],
   providers: [],

@@ -1,3 +1,7 @@
+.alert{
+  color:red !important;
+  font-size: 8px !important;
+}
 .close-button{
   float: right;
   top:0px;
@@ -270,8 +274,8 @@ background: #3899D5;; }
   padding: 10px 10px;
   font-family: 'Open Sans','Roboto', "Helvetica Neue", sans-serif !important;
 }
-#msform .action-button:hover, #msform .action-button:focus {
-  // box-shadow: 0 0 0 2px rgb(255, 255, 255), 0 0 0 3px #ee0979;
+#msform .action-button:disabled{
+  background-color: #5a5a5a !important;
 }
 #msform .action-button-previous {
   position: fixed;
